@@ -1,7 +1,7 @@
 { "scripts": {
-  "build": "CI='' tailwindcss -i ./src/input.css -o ./public/css/styles.css --minify",
+  "build": "CI='' tailwindcss -i ./src/input.css -o ./src/output.css --minify",
   "start": "serve -s src -p $PORT",
-  "dev": "tailwindcss -i ./src/input.css -o ./public/css/styles.css --watch"
+  "dev": "tailwindcss -i ./src/input.css -o ./src/output.css --watch"
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.11",
