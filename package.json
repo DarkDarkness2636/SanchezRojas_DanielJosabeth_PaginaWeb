@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "tailwindcss -i ./src/input.css -o ./src/output.css --minify",
+    "build":  "CI='' tailwindcss -i ./src/input.css -o ./src/output.css --minify",
     "start": "serve -p $PORT public",
     "dev": "tailwindcss -i ./src/input.css -o ./src/output.css --watch"
   },
