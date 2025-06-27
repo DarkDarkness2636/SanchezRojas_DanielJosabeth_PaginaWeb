@@ -1,6 +1,6 @@
 { "scripts": {
   "build": "CI='' tailwindcss -i ./src/input.css -o ./public/css/styles.css --minify",
-  "start": "serve -s public -p $PORT",
+  "start": "serve -s src -p $PORT",
   "dev": "tailwindcss -i ./src/input.css -o ./public/css/styles.css --watch"
   },
   "dependencies": {
