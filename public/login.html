@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OceanCube - Iniciar Sesión</title>
+    <link href="css/output.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#10B981',
+                        dark: '#1F2937',
+                        light: '#F9FAFB',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans antialiased text-gray-800 bg-gray-50">
+<nav class="bg-black shadow-lg sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex items-center">
+                <div class="flex-shrink-0 flex items-center">
+                    <i class="fas fa-cube text-blue-500 text-2xl mr-2"></i>
+                    <span class="text-xl font-bold text-white">OceanCube</span>
+                </div>
+                <div class="hidden md:ml-8 md:flex md:space-x-8">
+                    <a href="#" class="border-primary text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Inicio</a>
+                    <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Tutoriales</a>
+                    <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Servidor</a>
+                    <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Sobre el Proyecto</a>
+                    <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Contacto</a>
+                </div>
+            </div>
+            <div class="-mr-2 flex items-center md:hidden">
+                <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary" aria-controls="mobile-menu" aria-expanded="false">
+                    <span class="sr-only">Abrir menú</span>
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="md:hidden hidden" id="mobile-menu">
+        <div class="pt-2 pb-3 space-y-1">
+            <a href="#" class="bg-indigo-50 border-primary text-primary block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Inicio</a>
+            <a href="#" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Tutoriales</a>
+            <a href="#" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Servidor</a>
+            <a href="#" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Sobre el proyecto</a>
+            <a href="#" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Contacto</a>
+        </div>
+    </div>
+</nav>
+
+
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-lg">
+        <div>
+            <i class="fas fa-cube text-blue-500 text-4xl mx-auto"></i>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                Iniciar sesión
+            </h2>
+        </div>
+        <form class="mt-8 space-y-6" id="loginForm">
+            <div class="rounded-md shadow-sm space-y-4">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input id="email" name="email" type="email" autocomplete="email" required
+                           class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                           placeholder="tu@email.com">
+                </div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                    <input id="password" name="password" type="password" autocomplete="current-password" required
+                           class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                           placeholder="••••••••">
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <input id="remember-me" name="remember-me" type="checkbox"
+                           class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                    <label for="remember-me" class="ml-2 block text-sm text-gray-900">
+                        Recordarme
+                    </label>
+                </div>
+
+                <div class="text-sm">
+                    <a href="#" class="font-medium text-blue-600 hover:text-blue-500">
+                        ¿Olvidaste tu contraseña?
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <button type="submit"
+                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Iniciar sesión
+                </button>
+            </div>
+        </form>
+
+        <div class="text-center">
+            <p class="text-sm text-gray-600">
+                ¿No tienes una cuenta?
+                <a href="/register.html" class="font-medium text-blue-600 hover:text-blue-500">
+                    Regístrate
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                localStorage.setItem('token', data.token);
+                window.location.href = '/';
+            } else {
+                alert(data.msg || 'Error al iniciar sesión');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error al conectar con el servidor');
+        }
+    });
+</script>
+</body>
+</html>

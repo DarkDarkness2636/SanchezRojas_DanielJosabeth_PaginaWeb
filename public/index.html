@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Servidor de Minecraft - Cube Ocean</title>
-  <link href="./output.css" rel="stylesheet">
+  <link href="css/output.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script>
     tailwind.config = {
@@ -42,12 +42,9 @@
           </div>
         </div>
         <div class="hidden md:flex items-center">
-          <button class="ml-8 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-500 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            Iniciar sesion
-          </button>
-          <button class="ml-8 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-700 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            Registarse
-          </button>
+          <div id="auth-buttons" class="hidden md:flex items-center">
+            <!-- Aquí se cargarán los botones dinámicamente -->
+          </div>
         </div>
         <div class="-mr-2 flex items-center md:hidden">
           <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary" aria-controls="mobile-menu" aria-expanded="false">
@@ -104,7 +101,7 @@
       </div>
       <div class="flex justify-center items-center h-full">
         <img class="max-h-[60vh] w-auto object-contain"
-             src="./imagenes/minecrfatServer.png"
+             src="img/minecrfatServer.png"
              alt="Servidor Minecraft">
       </div>
     </div>
@@ -213,7 +210,6 @@
             <iframe class="w-full h-64 sm:h-96"
                     src="https://www.youtube.com/embed/rR8W-f9YhYA?wmode=transparent"
                     title="YouTube video player"
-                    frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen>
             </iframe>
