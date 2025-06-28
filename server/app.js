@@ -31,11 +31,11 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use('/api/auth', authRoutes);
 
 // Rutas específicas para páginas HTML (antes del catch-all)
-app.get('/login', (req, res) => {
+app.get('/login.html', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/login.html'));
 });
 
-app.get('/register', (req, res) => {
+app.get('/register.html', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/register.html'));
 });
 
