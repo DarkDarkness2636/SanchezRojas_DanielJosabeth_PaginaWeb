@@ -5,6 +5,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/auth');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 
@@ -24,39 +25,48 @@ mongoose.connect(process.env.MONGODB_URI || process.env.MONGO_URL, {
     .then(() => console.log('Conectado a MongoDB'))
     .catch(err => console.error('Error de conexión:', err));
 
-// Configuración de archivos estáticos CON NOMBRES EXPLÍCITOS
+// Configuración de archivos estáticos SIN redirecciones
 app.use(express.static(path.join(__dirname, '../public'), {
     index: false,
-    extensions: ['html'],
     redirect: false
 }));
 
 // Rutas API
 app.use('/api/auth', authRoutes);
 
-// Ruta explícita para login.html (con extensión)
-app.get('/login.html', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/login.html'), {
-        headers: {
-            'Content-Type': 'text/html',
-            'Cache-Control': 'no-store'
-        }
-    })
-});
+// Middleware para verificar archivos HTML
+const serveHtml = (page) => {
+    return (req, res, next) => {
+        const filePath = path.join(__dirname, `../public/${page}.html`);
 
-// Ruta explícita para register.html (con extensión)
-app.get('/register.html', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/register.html'), {
-        headers: {
-            'Content-Type': 'text/html',
-            'Cache-Control': 'no-store'
-        }
-    })
-});
+        fs.access(filePath, fs.constants.F_OK, (err) => {
+            if (err) {
+                return next();
+            }
 
-// Catch-all para SPA (DEBE ir al final)
+            res.sendFile(filePath, {
+                headers: {
+                    'Content-Type': 'text/html',
+                    'Cache-Control': 'no-store'
+                }
+            });
+        });
+    };
+};
+
+// Rutas específicas con verificación de archivo
+app.get('/login', serveHtml('login'));
+app.get('/login.html', serveHtml('login'));
+app.get('/register', serveHtml('register'));
+app.get('/register.html', serveHtml('register'));
+
+// Catch-all para SPA (ÚLTIMO middleware)
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/index.html'));
+    res.sendFile(path.join(__dirname, '../public/index.html'), {
+        headers: {
+            'Cache-Control': 'no-store'
+        }
+    });
 });
 
 const PORT = process.env.PORT || 5000;
