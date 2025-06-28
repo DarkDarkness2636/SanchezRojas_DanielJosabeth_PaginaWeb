@@ -2,6 +2,13 @@
   "root": "public/",
   "clean_urls": true,
   "routes": {
+    "/login": "login.html",
+    "/register": "register.html",
     "/**": "index.html"
+  },
+  "headers": {
+    "**/*.html": {
+      "Cache-Control": "no-cache"
+    }
   }
 }
