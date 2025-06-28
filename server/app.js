@@ -9,7 +9,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-    origin: ['http://localhost:3000', 'https://sanchezrojasdanieljosabethpaginaweb-production.up.railway.app'],
+    origin: ['http://localhost:3000', 'https://sanchezrojasdanieljosabethpaginaweb-production-7d9a.up.railway.app'],
     credentials: true
 }));
 app.use(express.json());
