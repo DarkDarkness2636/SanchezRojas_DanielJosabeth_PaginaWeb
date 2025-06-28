@@ -7,14 +7,13 @@ const authRoutes = require('./routes/auth');
 const path = require('path');
 
 const app = express();
-
+app.use(cookieParser());
 // Middleware
 app.use(cors({
     origin: ['http://localhost:3000', 'https://sanchezrojasdanieljosabethpaginaweb-production-7d9a.up.railway.app'],
     credentials: true
 }));
 app.use(express.json());
-app.use(cookieParser());
 
 // Conexión a MongoDB
 mongoose.connect(process.env.MONGODB_URI || process.env.MONGO_URL, {
