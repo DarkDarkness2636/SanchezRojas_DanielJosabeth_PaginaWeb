@@ -24,13 +24,16 @@ mongoose.connect(process.env.MONGODB_URI || process.env.MONGO_URL, {
     .then(() => console.log('Conectado a MongoDB'))
     .catch(err => console.error('Error de conexión:', err));
 
-// 1. Primero las rutas de API
+// 1. Configuración para servir archivos estáticos (PRIMERO)
+app.use(express.static(path.join(__dirname, '../public'), {
+    index: false, // IMPORTANTE: Deshabilita el index automático
+    extensions: ['html'] // Permite omitir la extensión .html
+}));
+
+// 2. Rutas API
 app.use('/api/auth', authRoutes);
 
-// 2. Configuración para servir archivos estáticos
-app.use(express.static(path.join(__dirname, '../public')));
-
-// 3. Rutas específicas para cada página HTML (ANTES del catch-all)
+// 3. Rutas específicas para páginas HTML
 app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/login.html'));
 });
@@ -39,7 +42,7 @@ app.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/register.html'));
 });
 
-// 4. Catch-all para cualquier otra ruta (DEBE ir al final)
+// 4. Catch-all para SPA (DEBE ir AL FINAL)
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/index.html'));
 });
