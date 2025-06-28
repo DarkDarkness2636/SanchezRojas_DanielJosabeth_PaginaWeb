@@ -24,19 +24,26 @@ mongoose.connect(process.env.MONGODB_URI || process.env.MONGO_URL, {
     .then(() => console.log('Conectado a MongoDB'))
     .catch(err => console.error('Error de conexión:', err));
 
-// Rutas
-app.use('/api/auth', authRoutes);
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
-
-// Configuración para servir archivos estáticos
+// Configuración para servir archivos estáticos (DEBE ir después de los middlewares pero antes de las rutas específicas)
 app.use(express.static(path.join(__dirname, '../public')));
 
-// Rutas API (deben ir antes del catch-all)
+// Rutas API
 app.use('/api/auth', authRoutes);
 
+// Rutas específicas para páginas HTML (antes del catch-all)
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/login.html'));
+});
+
+app.get('/register', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/register.html'));
+});
+
 // Catch-all para SPA (Single Page Application)
+// Esto debe ir AL FINAL de todas las rutas
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../public', 'index.html'));
 });
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
