@@ -24,26 +24,28 @@ mongoose.connect(process.env.MONGODB_URI || process.env.MONGO_URL, {
     .then(() => console.log('Conectado a MongoDB'))
     .catch(err => console.error('Error de conexión:', err));
 
-// Configuración para servir archivos estáticos (DEBE ir después de los middlewares pero antes de las rutas específicas)
-app.use(express.static(path.join(__dirname, '../public')));
+// Configuración de archivos estáticos (IMPORTANTE el orden)
+app.use(express.static(path.join(__dirname, '../public'), {
+    extensions: ['html', 'htm'] // Permite omitir la extensión
+}));
 
 // Rutas API
 app.use('/api/auth', authRoutes);
 
-// Rutas específicas para páginas HTML (antes del catch-all)
-app.get('/login.html', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/login.html'));
-});
+// Rutas explícitas para cada página HTML
+const servePage = (page) => (req, res) => {
+    res.sendFile(path.join(__dirname, `../public/${page}.html`), {
+        headers: {
+            'Content-Type': 'text/html'
+        }
+    });
+};
 
-app.get('/register.html', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/register.html'));
-});
+app.get('/login', servePage('login'));
+app.get('/register', servePage('register'));
 
-// Catch-all para SPA (Single Page Application)
-// Esto debe ir AL FINAL de todas las rutas
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public', 'index.html'));
-});
+// Catch-all para otras rutas (Opcional: redirige a index o 404)
+app.get('*', servePage('index'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
