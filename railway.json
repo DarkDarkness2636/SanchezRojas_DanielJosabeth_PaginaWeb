@@ -2,7 +2,21 @@
   "build": {
     "builder": "nixpacks",
     "config": {
-      "startCommand": "serve public"
+      "startCommand": "node app.js"
     }
+  },
+  "routes": {
+    "/api/*": {
+      "priority": 0
+    },
+    "/*": {
+      "priority": 1
+    }
+  },
+  "env": {
+    "NODE_ENV": "production",
+    "PORT": "5000",
+    "JWT_SECRET": "@jwt-secret",
+    "MONGODB_URI": "@mongo-uri"
   }
 }
