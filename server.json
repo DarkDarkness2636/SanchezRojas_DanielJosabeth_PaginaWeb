@@ -1,0 +1,45 @@
+{
+    "public": "public",
+    "cleanUrls": true,
+    "rewrites": [
+    {
+        "source": "/login",
+        "destination": "/login.html"
+    },
+    {
+        "source": "/register",
+        "destination": "/register.html"
+    },
+    {
+        "source": "!/api/**",
+        "destination": "/index.html"
+    }
+],
+    "redirects": [
+    {
+        "source": "/login.html",
+        "destination": "/login",
+        "type": 301
+    },
+    {
+        "source": "/register.html",
+        "destination": "/register",
+        "type": 301
+    }
+],
+    "headers": [
+    {
+        "source": "**/*.@(html|htm)",
+        "headers": [
+            {
+                "key": "Cache-Control",
+                "value": "no-store, no-cache, must-revalidate"
+            },
+            {
+                "key": "Content-Type",
+                "value": "text/html; charset=UTF-8"
+            }
+        ]
+    }
+]
+}

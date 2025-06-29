@@ -2,7 +2,12 @@
   "build": {
     "builder": "nixpacks",
     "config": {
-      "startCommand": "node serve.js"
+      "startCommand": "serve -c server.json"
+    }
+  },
+  "routes": {
+    "/*": {
+      "priority": 1
     }
   }
 }
