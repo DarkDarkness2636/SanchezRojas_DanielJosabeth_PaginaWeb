@@ -3,7 +3,7 @@
     "build": "CI='' tailwindcss -i public/css/input.css -o public/output.css --minify",
     "start": "serve -c server.json -l $PORT",
     "dev": "tailwindcss -i public/css/input.css -o public/output.css --watch",
-    "serve": "serve -c server.json -l 3000"
+    "serve": "serve -c server.json -l 5000"
   },
   "dependencies":{
     "@tailwindcss/cli":"^4.1.11",
