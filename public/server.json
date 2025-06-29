@@ -1,11 +1,6 @@
 {
-    "public": "public",
-    "cleanUrls": false,
+    "cleanUrls": true,
     "rewrites": [
-        {
-            "source": "/",
-            "destination": "/index.html"
-        },
         {
             "source": "/login",
             "destination": "/login.html"
@@ -15,16 +10,11 @@
             "destination": "/register.html"
         },
         {
-            "source": "/profile",
-            "destination": "/profile.html"
+            "source": "!/api/**",
+            "destination": "/index.html"
         }
     ],
     "redirects": [
-        {
-            "source": "/index",
-            "destination": "/",
-            "type": 301
-        },
         {
             "source": "/login.html",
             "destination": "/login",
@@ -38,24 +28,11 @@
     ],
     "headers": [
         {
-            "source": "**/*.@(html|htm)",
+            "source": "**/*.html",
             "headers": [
                 {
                     "key": "Cache-Control",
                     "value": "no-store, no-cache, must-revalidate"
-                }
-            ]
-        },
-        {
-            "source": "/**",
-            "headers": [
-                {
-                    "key": "X-Frame-Options",
-                    "value": "DENY"
-                },
-                {
-                    "key": "X-Content-Type-Options",
-                    "value": "nosniff"
                 }
             ]
         }
