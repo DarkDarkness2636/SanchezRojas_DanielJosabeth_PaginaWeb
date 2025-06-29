@@ -102,12 +102,48 @@ app.get('/api/health', (req, res) => {
     });
 });
 
-// Catch-all para SPA (debe ser el último middleware)
+// Ruta específica para login (ANTES del catch-all)
+app.get('/login', (req, res) => {
+    const loginPath = path.join(__dirname, '../public/login.html');
+
+    fs.access(loginPath, fs.constants.F_OK, (err) => {
+        if (err) {
+            // Si no existe login.html, redirige al index con hash
+            return res.redirect('/#/login');
+        }
+
+        res.sendFile(loginPath, {
+            headers: {
+                'Content-Type': 'text/html',
+                'Cache-Control': 'no-store'
+            }
+        });
+    });
+});
+
+// Ruta específica para register (similar a login)
+app.get('/register', (req, res) => {
+    const registerPath = path.join(__dirname, '../public/register.html');
+
+    fs.access(registerPath, fs.constants.F_OK, (err) => {
+        if (err) {
+            return res.redirect('/#/register');
+        }
+
+        res.sendFile(registerPath, {
+            headers: {
+                'Content-Type': 'text/html',
+                'Cache-Control': 'no-store'
+            }
+        });
+    });
+});
+
+// Catch-all para SPA (DEBE SER LA ÚLTIMA RUTA)
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/index.html'), {
         headers: {
-            'Cache-Control': 'no-store, max-age=0',
-            'X-Content-Type-Options': 'nosniff'
+            'Cache-Control': 'no-store'
         }
     });
 });
