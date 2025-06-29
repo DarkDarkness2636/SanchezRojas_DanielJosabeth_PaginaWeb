@@ -2,10 +2,11 @@
   "build": {
     "builder": "nixpacks",
     "config": {
-      "startCommand": "npx serve -c server.json -l $PORT"
+      "startCommand": "npm start"
     }
   },
   "env": {
-    "NODE_ENV": "production"
+    "NODE_ENV": "production",
+    "PORT": "5000"
   }
 }
