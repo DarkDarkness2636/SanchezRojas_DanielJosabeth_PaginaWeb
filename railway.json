@@ -5,11 +5,6 @@
       "startCommand": "npx serve -c server.json -l $PORT"
     }
   },
-  "routes": {
-    "/*": {
-      "priority": 1
-    }
-  },
   "env": {
     "NODE_ENV": "production"
   }
