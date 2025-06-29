@@ -2,6 +2,10 @@
     "cleanUrls": true,
     "rewrites": [
         {
+            "source": "/",
+            "destination": "/index.html"
+        },
+        {
             "source": "/login",
             "destination": "/login.html"
         },
@@ -15,6 +19,11 @@
         }
     ],
     "redirects": [
+        {
+            "source": "/index.html",
+            "destination": "/index",
+            "type": 301
+        },
         {
             "source": "/login.html",
             "destination": "/login",
