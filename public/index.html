@@ -333,28 +333,6 @@
       menu.classList.toggle('hidden');
     });
   </script>
-  <script>
-    // Manejo básico de rutas
-    const routes = {
-      '/login': 'login.html',
-      '/register': 'register.html'
-    };
-
-    window.addEventListener('popstate', handleRoute);
-    document.addEventListener('DOMContentLoaded', handleRoute);
-
-    function handleRoute() {
-      const path = window.location.pathname;
-      if (routes[path]) {
-        fetch(routes[path])
-                .then(response => response.text())
-                .then(html => {
-                  document.getElementById('app').innerHTML = html;
-                });
-      }
-    }
-  </script>
   <script src="./js/auth.js"></script>
-  <script src="./js/carrusel.js"></script>
 </body>
 </html>

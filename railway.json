@@ -2,12 +2,15 @@
   "build": {
     "builder": "nixpacks",
     "config": {
-      "startCommand": "serve -c server.json"
+      "startCommand": "npx serve -c server.json -l $PORT"
     }
   },
   "routes": {
     "/*": {
       "priority": 1
     }
+  },
+  "env": {
+    "NODE_ENV": "production"
   }
 }

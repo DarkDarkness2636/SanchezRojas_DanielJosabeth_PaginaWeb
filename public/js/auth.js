@@ -1,36 +1,45 @@
-// public/js/auth.js
-
 document.addEventListener('DOMContentLoaded', () => {
-    // Forzar recarga limpia para evitar caché
-    if (performance.navigation.type === 1) { // 1 significa recarga de la página
+    // Configuración inicial
+    const BASE_PATH = window.location.pathname.includes('/public/')
+        ? '/public/'
+        : '/';
+
+    // Limpieza de URL
+    if (performance.navigation.type === 1) {
         const cleanUrl = window.location.href.split('?')[0];
         window.history.replaceState({}, document.title, cleanUrl);
     }
 
     checkAuthStatus();
-    setupEventListeners();
+    setupEventListeners(BASE_PATH);
 });
 
-function setupEventListeners() {
+function setupEventListeners(basePath) {
     document.addEventListener('click', (e) => {
-        // Manejar logout
-        if (e.target.closest('[data-logout]')) {
+        const link = e.target.closest('a[href^="/"], a[href^="./"]');
+        if (link) {
             e.preventDefault();
-            logout();
-        }
+            const href = link.getAttribute('href');
 
-        // Manejar enlaces internos (evita el comportamiento por defecto)
-        if (e.target.closest('a[href^="/"]')) {
-            e.preventDefault();
-            const href = e.target.closest('a').getAttribute('href');
-            navigateTo(href);
+            // Manejo especial para rutas conocidas
+            if (href === '/login' || href === '/register' || href === '/') {
+                navigateTo(href);
+            } else {
+                // Comportamiento normal para otros enlaces
+                window.location.href = href;
+            }
         }
     });
 }
 
 async function navigateTo(path) {
-    // Agrega timestamp para evitar caché
-    window.location.href = `${path}${path.includes('?') ? '&' : '?'}t=${Date.now()}`;
+    // Verifica si estamos en un entorno con server
+    if (window.location.protocol !== 'file:') {
+        window.location.href = path;
+    } else {
+        // Para desarrollo local sin server
+        window.location.href = `${path}${path.includes('?') ? '&' : '?'}t=${Date.now()}`;
+    }
 }
 
 async function checkAuthStatus() {
@@ -54,7 +63,7 @@ async function checkAuthStatus() {
 
 function renderAuthenticatedUI(user) {
     document.getElementById('auth-buttons').innerHTML = `
-        <a href="/profile.html" class="ml-8 flex items-center space-x-2">
+        <a href="/profile" class="ml-8 flex items-center space-x-2">
             <span class="text-white">${user.username}</span>
             <i class="fas fa-user-circle text-white text-xl"></i>
         </a>
@@ -66,10 +75,10 @@ function renderAuthenticatedUI(user) {
 
 function renderUnauthenticatedUI() {
     document.getElementById('auth-buttons').innerHTML = `
-        <a href="/login" class="ml-8 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-500 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        <a href="./login" class="ml-8 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-500 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Iniciar sesión
         </a>
-        <a href="/register" class="ml-8 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-700 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        <a href="./register" class="ml-8 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-700 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Registrarse
         </a>
     `;
@@ -81,15 +90,15 @@ async function verifyToken(token) {
     return await response.json();
 }
 
-async function logout() {
+async function logout(basePath = '') {
     try {
-        await fetch('/api/auth/logout', { method: 'POST' });
+        await fetch(`${basePath}api/auth/logout`, { method: 'POST' });
     } catch (error) {
         console.error('Logout error:', error);
     }
 
     localStorage.removeItem('token');
-    navigateTo('/index.html');
+    navigateTo('./index.html', basePath);
 }
 
 async function authFetch(url, options = {}) {
@@ -108,7 +117,7 @@ async function authFetch(url, options = {}) {
 
     if (response.status === 401) {
         localStorage.removeItem('token');
-        navigateTo('/login.html');
+        navigateTo('./login');
         throw new Error('Unauthorized');
     }
 

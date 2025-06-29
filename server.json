@@ -1,45 +1,63 @@
 {
     "public": "public",
-    "cleanUrls": true,
+    "cleanUrls": false,
     "rewrites": [
-    {
-        "source": "/login",
-        "destination": "/login.html"
-    },
-    {
-        "source": "/register",
-        "destination": "/register.html"
-    },
-    {
-        "source": "!/api/**",
-        "destination": "/index.html"
-    }
-],
+        {
+            "source": "/",
+            "destination": "/index.html"
+        },
+        {
+            "source": "/login",
+            "destination": "/login.html"
+        },
+        {
+            "source": "/register",
+            "destination": "/register.html"
+        },
+        {
+            "source": "/profile",
+            "destination": "/profile.html"
+        }
+    ],
     "redirects": [
-    {
-        "source": "/login.html",
-        "destination": "/login",
-        "type": 301
-    },
-    {
-        "source": "/register.html",
-        "destination": "/register",
-        "type": 301
-    }
-],
+        {
+            "source": "/index",
+            "destination": "/",
+            "type": 301
+        },
+        {
+            "source": "/login.html",
+            "destination": "/login",
+            "type": 301
+        },
+        {
+            "source": "/register.html",
+            "destination": "/register",
+            "type": 301
+        }
+    ],
     "headers": [
-    {
-        "source": "**/*.@(html|htm)",
-        "headers": [
-            {
-                "key": "Cache-Control",
-                "value": "no-store, no-cache, must-revalidate"
-            },
-            {
-                "key": "Content-Type",
-                "value": "text/html; charset=UTF-8"
-            }
-        ]
-    }
-]
+        {
+            "source": "**/*.@(html|htm)",
+            "headers": [
+                {
+                    "key": "Cache-Control",
+                    "value": "no-store, no-cache, must-revalidate"
+                }
+            ]
+        },
+        {
+            "source": "/**",
+            "headers": [
+                {
+                    "key": "X-Frame-Options",
+                    "value": "DENY"
+                },
+                {
+                    "key": "X-Content-Type-Options",
+                    "value": "nosniff"
+                }
+            ]
+        }
+    ]
 }
