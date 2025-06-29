@@ -1,9 +1,9 @@
 {
   "scripts": {
     "build": "CI='' tailwindcss -i public/css/input.css -o public/output.css --minify",
-    "start": "serve -c public/server.json public -l $PORT",
+    "start": "serve -c server.json public -l $PORT",
     "dev": "tailwindcss -i public/css/input.css -o public/output.css --watch",
-    "serve": "serve -c public/server.json public -l 5000"
+    "serve": "serve -c server.json public -l 5000"
   },
   "dependencies":{
     "@tailwindcss/cli":"^4.1.11",
