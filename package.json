@@ -1,8 +1,8 @@
 {
   "scripts": {
     "build": "CI='' tailwindcss -i public/css/input.css -o public/output.css --minify",
-    "start": "node server.js",
-    "dev": "concurrently \"tailwindcss -i public/css/input.css -o public/output.css --watch\" \"node server.js\"",
+    "start": "node app.js",
+    "dev": "concurrently \"tailwindcss -i public/css/input.css -o public/output.css --watch\" \"node app.js\"",
     "tailwind": "tailwindcss -i public/css/input.css -o public/output.css --watch"
   },
   "dependencies": {
