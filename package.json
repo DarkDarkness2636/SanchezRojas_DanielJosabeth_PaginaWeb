@@ -1,19 +1,21 @@
 {
   "scripts": {
     "build": "CI='' tailwindcss -i public/css/input.css -o public/output.css --minify",
-    "start": "serve -c server.json public -l $PORT",
-    "dev": "tailwindcss -i public/css/input.css -o public/output.css --watch",
-    "serve": "serve -c server.json public -l 5000"
+    "start": "node server.js",
+    "dev": "concurrently \"tailwindcss -i public/css/input.css -o public/output.css --watch\" \"node server.js\"",
+    "tailwind": "tailwindcss -i public/css/input.css -o public/output.css --watch"
   },
-  "dependencies":{
-    "@tailwindcss/cli":"^4.1.11",
-    "bcryptjs":"^3.0.2",
-    "cookie-parser":"^1.4.7",
-    "cors":"^2.8.5",
-    "dotenv":"^16.6.0",
-    "express":"^5.1.0",
-    "express-validator":"^7.2.1",
-    "jsonwebtoken":"^9.0.2",
-    "mongoose":"^8.16.1",
-    "serve":"^14.2.1",
-    "tailwindcss":"^4.1.11"}}
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "bcryptjs": "^3.0.2",
+    "concurrently": "^8.2.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.0",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.16.1",
+    "tailwindcss": "^4.1.11"
+  }
+}
