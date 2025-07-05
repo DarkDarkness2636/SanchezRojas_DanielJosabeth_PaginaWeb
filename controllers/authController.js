@@ -1,9 +1,11 @@
+const { check, validationResult } = require('express-validator'); // Añade esta línea
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 // Registro de usuario
 exports.registerUser = async (req, res) => {
+    // Validación de resultados
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });

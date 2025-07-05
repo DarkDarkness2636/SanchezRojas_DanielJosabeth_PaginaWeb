@@ -2,11 +2,13 @@
   "build": {
     "builder": "nixpacks",
     "config": {
-      "startCommand": "node server.js"
+      "startCommand": "npm run build:css && npm start"
     }
   },
   "env": {
     "NODE_ENV": "production",
-    "PORT": "5000"
+    "PORT": "5000",
+    "MONGODB_URI": "@mongo_uri",
+    "JWT_SECRET": "@jwt_secret"
   }
 }
