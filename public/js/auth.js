@@ -122,7 +122,9 @@ async function handleLogin() {
 
         const data = await response.json();
 
-        if (!response.ok) throw new Error(data.msg || 'Credenciales incorrectas');
+        if (!response.ok) {
+            throw new Error(data.msg || 'Error al iniciar sesión');
+        }
 
         // Almacenar token y datos de usuario
         localStorage.setItem('token', data.token);
@@ -133,6 +135,7 @@ async function handleLogin() {
 
     } catch (error) {
         showFeedback(error.message, 'error');
+        console.error('Error en login:', error);
     } finally {
         toggleLoading(submitBtn, false);
     }

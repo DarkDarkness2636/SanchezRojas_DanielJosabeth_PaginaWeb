@@ -56,24 +56,33 @@ exports.registerUser = async (req, res) => {
 
 // Autenticación de usuario
 exports.loginUser = async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-
+    // Validación simplificada
     const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({
+            success: false,
+            msg: 'Por favor proporciona email y contraseña'
+        });
+    }
 
     try {
         // Verificar usuario
         let user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({ errors: [{ msg: 'Credenciales inválidas' }] });
+            return res.status(400).json({
+                success: false,
+                msg: 'Credenciales inválidas'
+            });
         }
 
         // Verificar contraseña
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ errors: [{ msg: 'Credenciales inválidas' }] });
+            return res.status(400).json({
+                success: false,
+                msg: 'Credenciales inválidas'
+            });
         }
 
         // Crear y devolver token JWT
@@ -90,13 +99,26 @@ exports.loginUser = async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: '5h' },
             (err, token) => {
-                if (err) throw err;
-                res.json({ token, user: payload.user });
+                if (err) {
+                    console.error('Error al generar token:', err);
+                    return res.status(500).json({
+                        success: false,
+                        msg: 'Error al generar token'
+                    });
+                }
+                res.json({
+                    success: true,
+                    token,
+                    user: payload.user
+                });
             }
         );
     } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Error en el servidor');
+        console.error('Error en login:', err.message);
+        res.status(500).json({
+            success: false,
+            msg: 'Error en el servidor'
+        });
     }
 };
 
