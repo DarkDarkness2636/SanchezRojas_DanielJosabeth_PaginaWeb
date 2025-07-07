@@ -39,7 +39,7 @@ const htmlRoutes = {
     '/': 'index.html',
     '/login': 'login.html',
     '/register': 'register.html',
-    '/profile': 'index.html', // Para SPA
+    '/profile': 'profile.html', // Para SPA
     '/dashboard': 'index.html' // Para SPA
 };
 

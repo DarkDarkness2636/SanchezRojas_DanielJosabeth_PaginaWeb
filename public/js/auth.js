@@ -141,17 +141,29 @@ async function handleLogin() {
 /**
  * Cierra la sesión del usuario
  */
-function logout() {
-    // Limpiar almacenamiento local
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+async function logout() {
+    try {
+        // 1. Hacer llamada al backend para logout
+        const response = await fetch('/api/auth/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
 
-    // Opcional: Hacer llamada al backend para logout
-    fetch('/api/auth/logout', { method: 'POST' });
+        // 2. Limpiar almacenamiento local
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
 
-    // Redirigir y actualizar UI
-    navigateTo('/login');
-    updateAuthUI();
+        // 3. Redirigir a login con mensaje
+        showFeedback('Sesión cerrada correctamente', 'success');
+        setTimeout(() => navigateTo('/login'), 1500);
+
+    } catch (error) {
+        console.error('Error al cerrar sesión:', error);
+        showFeedback('Error al cerrar sesión', 'error');
+    }
 }
 
 // ======================== [3] FUNCIONES DE UTILIDAD ======================== //
@@ -230,4 +242,14 @@ function toggleLoading(button, isLoading) {
 // Inicializar botones al cargar
 document.querySelectorAll('button[type="submit"]').forEach(btn => {
     btn.dataset.originalText = btn.innerHTML;
+});
+
+// Configurar listener para el botón de logout
+document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('[data-logout]')) {
+            e.preventDefault();
+            logout();
+        }
+    });
 });

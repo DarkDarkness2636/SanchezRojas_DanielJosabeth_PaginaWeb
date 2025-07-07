@@ -100,9 +100,22 @@ exports.loginUser = async (req, res) => {
     }
 };
 
-// Cerrar sesión
-exports.logoutUser = (req, res) => {
-    res.json({ msg: 'Sesión cerrada correctamente' });
+exports.logoutUser = async (req, res) => {
+    try {
+        // Opcional: Invalidar token en base de datos si usas lista blanca/negra
+        res.clearCookie('token'); // Si usas cookies
+
+        res.json({
+            success: true,
+            message: 'Sesión cerrada correctamente'
+        });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({
+            success: false,
+            message: 'Error al cerrar sesión'
+        });
+    }
 };
 
 // Obtener usuario autenticado

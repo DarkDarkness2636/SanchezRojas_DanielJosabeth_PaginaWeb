@@ -71,7 +71,7 @@
                 Iniciar sesión
             </h2>
         </div>
-        <form class="mt-8 space-y-6" id="loginForm">
+        <form class="mt-8 space-y-6" id="login-form">
             <div class="rounded-md shadow-sm space-y-4">
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
@@ -122,35 +122,6 @@
     </div>
 </div>
 
-<script>
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-
-        try {
-            const response = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email, password })
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                localStorage.setItem('token', data.token);
-                window.location.href = '/';
-            } else {
-                alert(data.msg || 'Error al iniciar sesión');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Error al conectar con el servidor');
-        }
-    });
-</script>
+<script src="/js/auth.js"></script>
 </body>
 </html>
