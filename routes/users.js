@@ -1,12 +1,12 @@
 // Rutas CRUD para usuarios
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
+const Users = require('../models/User');
 
 // Obtener todos los usuarios
 router.get('/', async (req, res) => {
     try {
-        const users = await User.find().select('-password');
+        const users = await Users.find().select('-password');
         res.json(users);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -20,7 +20,7 @@ router.get('/:id', getUser, (req, res) => {
 
 // Crear usuario
 router.post('/', async (req, res) => {
-    const user = new User({
+    const user = new Users({
         username: req.body.username,
         email: req.body.email,
         password: req.body.password // El pre-save lo hasheará automáticamente
@@ -68,7 +68,7 @@ router.delete('/:id', getUser, async (req, res) => {
 async function getUser(req, res, next) {
     let user;
     try {
-        user = await User.findById(req.params.id);
+        user = await Users.findById(req.params.id);
         if (user == null) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
