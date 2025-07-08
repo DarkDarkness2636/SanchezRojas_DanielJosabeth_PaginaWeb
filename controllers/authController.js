@@ -4,120 +4,102 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 // Registro de usuario
-exports.registerUser = async (req, res) => {
-    // Validación de resultados
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-
-    const { username, email, password } = req.body;
-
+exports.register = async (req, res) => {
     try {
-        // Verificar si el usuario ya existe
-        let user = await User.findOne({ email });
-        if (user) {
-            return res.status(400).json({ errors: [{ msg: 'El usuario ya existe' }] });
+        const { username, email, password } = req.body;
+
+        // Validación básica
+        if (!username || !email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: 'Todos los campos son requeridos'
+            });
         }
 
         // Crear nuevo usuario
-        user = new User({ username, email, password });
+        const user = new User({ username, email, password });
+        const savedUser = await user.save();
 
-        // Encriptar contraseña
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(password, salt);
-
-        // Guardar en la base de datos
-        await user.save();
-
-        // Crear y devolver token JWT
-        const payload = {
-            user: {
-                id: user.id,
-                username: user.username,
-                email: user.email
-            }
-        };
-
-        jwt.sign(
-            payload,
-            process.env.JWT_SECRET,
-            { expiresIn: '5h' },
-            (err, token) => {
-                if (err) throw err;
-                res.json({ token, user: payload.user });
-            }
+        // Generar token JWT
+        const token = jwt.sign(
+            { userId: savedUser._id },
+            process.env.JWT_SECRET, // Usando directamente la variable de entorno
+            { expiresIn: '5h' }
         );
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Error en el servidor');
+
+        res.status(201).json({
+            success: true,
+            token,
+            user: {
+                id: savedUser._id,
+                username: savedUser.username,
+                email: savedUser.email
+            }
+        });
+
+    } catch (error) {
+        console.error('Error en registro:', error);
+
+        // Manejo de errores de duplicados
+        if (error.code === 11000) {
+            const field = Object.keys(error.keyPattern)[0];
+            return res.status(400).json({
+                success: false,
+                message: `El ${field} ya está en uso`
+            });
+        }
+
+        res.status(500).json({
+            success: false,
+            message: 'Error en el servidor'
+        });
     }
 };
 
-// Autenticación de usuario
-exports.loginUser = async (req, res) => {
-    // Validación simplificada
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-        return res.status(400).json({
-            success: false,
-            msg: 'Por favor proporciona email y contraseña'
-        });
-    }
-
+// Inicio de sesión
+exports.login = async (req, res) => {
     try {
-        // Verificar usuario
-        let user = await User.findOne({ email });
-        if (!user) {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
             return res.status(400).json({
                 success: false,
-                msg: 'Credenciales inválidas'
+                message: 'Email y contraseña son requeridos'
             });
         }
 
-        // Verificar contraseña
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(400).json({
+        // Buscar usuario incluyendo la contraseña
+        const user = await User.findOne({ email }).select('+password');
+
+        if (!user || !(await user.comparePassword(password))) {
+            return res.status(401).json({
                 success: false,
-                msg: 'Credenciales inválidas'
+                message: 'Credenciales inválidas'
             });
         }
 
-        // Crear y devolver token JWT
-        const payload = {
+        // Generar token JWT
+        const token = jwt.sign(
+            { userId: user._id },
+            process.env.JWT_SECRET, // Usando directamente la variable de entorno
+            { expiresIn: '5h' }
+        );
+
+        res.json({
+            success: true,
+            token,
             user: {
-                id: user.id,
+                id: user._id,
                 username: user.username,
                 email: user.email
             }
-        };
+        });
 
-        jwt.sign(
-            payload,
-            process.env.JWT_SECRET,
-            { expiresIn: '5h' },
-            (err, token) => {
-                if (err) {
-                    console.error('Error al generar token:', err);
-                    return res.status(500).json({
-                        success: false,
-                        msg: 'Error al generar token'
-                    });
-                }
-                res.json({
-                    success: true,
-                    token,
-                    user: payload.user
-                });
-            }
-        );
-    } catch (err) {
-        console.error('Error en login:', err.message);
+    } catch (error) {
+        console.error('Error en login:', error);
         res.status(500).json({
             success: false,
-            msg: 'Error en el servidor'
+            message: 'Error en el servidor'
         });
     }
 };
