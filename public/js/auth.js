@@ -195,10 +195,10 @@ function updateAuthUI() {
         `;
     } else {
         authButtons.innerHTML = `
-            <a href="/login" class="text-white hover:text-gray-300 mr-4">
+            <a href="/login" class="font-press-start bg-green-700 text-white px-4 py-2 border-2 border-t-green-500 border-l-green-500 border-r-green-900 border-b-green-900 hover:translate-y-0.5 active:translate-y-1 transition-transform text-xs">
                 Iniciar sesión
             </a>
-            <a href="/register" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+            <a href="/register" class="font-bold bg-yellow-500 text-white px-4 py-2 border-2 border-t-yellow-300 border-l-yellow-300 border-r-yellow-700 border-b-yellow-700 hover:translate-y-0.5 active:translate-y-1 transition-transform text-shadow-md shadow-inner">
                 Registrarse
             </a>
         `;
