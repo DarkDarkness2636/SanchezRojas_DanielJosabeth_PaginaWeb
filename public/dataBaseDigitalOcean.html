@@ -63,6 +63,20 @@
             </table>
         </div>
     </div>
+    <div class="flex flex-col md:flex-row justify-between items-center mb-4">
+        <div class="w-full md:w-1/2 mb-4 md:mb-0">
+            <div class="relative">
+                <input type="text" id="searchInput" placeholder="Buscar por nombre o email..."
+                       class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <div class="absolute left-3 top-2.5 text-gray-400">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+        </div>
+        <div class="text-sm text-gray-600">
+            Mostrando <span id="userCount">0</span> usuarios
+        </div>
+    </div>
 </div>
 </body>
 </html>
