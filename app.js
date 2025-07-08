@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/users');
 
 const app = express();
 
@@ -39,7 +40,8 @@ const htmlRoutes = {
     '/': 'index.html',
     '/login': 'login.html',
     '/register': 'register.html',
-    '/profile': 'profile.html', // Para SPA
+    '/profile': 'profile.html',
+    '/dataBaseDigitalOcean': '/dataBaseDigitalOcean.html',
     '/dashboard': 'index.html' // Para SPA
 };
 
@@ -54,6 +56,12 @@ Object.entries(htmlRoutes).forEach(([route, file]) => {
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Algo salió mal!');
+});
+
+app.use('/api/users', userRoutes);
+
+app.get('/dataBaseDigitalOcean.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'dataBaseDigitalOcean.html'));
 });
 
 const PORT = process.env.PORT || 5000;
