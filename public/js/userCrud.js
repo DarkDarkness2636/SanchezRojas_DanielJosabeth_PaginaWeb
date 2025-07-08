@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Cargar usuarios al iniciar
-    filterUsers();
+    loadUsers()
 
     // Manejar envío del formulario
     userForm.addEventListener('submit', async (e) => {
