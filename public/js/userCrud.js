@@ -5,9 +5,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const formTitle = document.getElementById('formTitle');
     const submitText = document.getElementById('submitText');
     let currentEditId = null;
+    const searchInput = document.getElementById('searchInput');
+    let allUsers = [];
+
+    // Agrega esta función para formatear la fecha
+    function formatDate(dateString) {
+        const options = {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        };
+        return new Date(dateString).toLocaleDateString('es-ES', options);
+    }
 
     // Cargar usuarios al iniciar
-    loadUsers();
+    filterUsers();
 
     // Manejar envío del formulario
     userForm.addEventListener('submit', async (e) => {
@@ -43,29 +58,51 @@ document.addEventListener('DOMContentLoaded', () => {
     async function loadUsers() {
         try {
             const response = await fetch('/api/users');
-            const users = await response.json();
-
-            usersTable.innerHTML = '';
-            users.forEach(user => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap">${user.username}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">${user.email}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <button onclick="editUser('${user._id}')" class="text-blue-600 hover:text-blue-900 mr-3">
-                            <i class="fas fa-edit"></i> Editar
-                        </button>
-                        <button onclick="deleteUser('${user._id}')" class="text-red-600 hover:text-red-900">
-                            <i class="fas fa-trash"></i> Eliminar
-                        </button>
-                    </td>
-                `;
-                usersTable.appendChild(row);
-            });
+            allUsers = await response.json();
+            filterUsers();
         } catch (error) {
             console.error('Error al cargar usuarios:', error);
         }
     }
+
+    // Nueva función para filtrar usuarios
+    function filterUsers() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const filteredUsers = allUsers.filter(user =>
+            user.username.toLowerCase().includes(searchTerm) ||
+            user.email.toLowerCase().includes(searchTerm)
+        );
+
+        renderUsers(filteredUsers);
+    }
+
+    // Función para renderizar usuarios
+    function renderUsers(users) {
+        usersTable.innerHTML = '';
+        users.forEach(user => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+            <td class="px-6 py-4 whitespace-nowrap">${user.username}</td>
+            <td class="px-6 py-4 whitespace-nowrap">${user.email}</td>
+            <td class="px-6 py-4 whitespace-nowrap">${formatDate(user.createdAt)}</td>
+            <td class="px-6 py-4 whitespace-nowrap">
+                <button onclick="editUser('${user._id}')" class="text-blue-600 hover:text-blue-900 mr-3">
+                    <i class="fas fa-edit"></i> Editar
+                </button>
+                <button onclick="deleteUser('${user._id}')" class="text-red-600 hover:text-red-900">
+                    <i class="fas fa-trash"></i> Eliminar
+                </button>
+            </td>
+        `;
+            usersTable.appendChild(row);
+        });
+
+        // Actualizar contador
+        document.getElementById('userCount').textContent = users.length;
+    }
+
+    // Agrega el event listener para la búsqueda
+    searchInput.addEventListener('input', filterUsers);
 
     // Función para crear usuario
     async function createUser(userData) {
@@ -126,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 await fetch(`/api/users/${id}`, {
                     method: 'DELETE'
                 });
-                loadUsers();
+                filterUsers();
             } catch (error) {
                 console.error('Error al eliminar usuario:', error);
             }
