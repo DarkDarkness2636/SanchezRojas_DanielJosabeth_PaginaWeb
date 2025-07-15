@@ -5,8 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Servidor de Minecraft - Cube Ocean</title>
   <link href="css/output.css" rel="stylesheet">
+  <style>
+    .minecraft-btn {
+      display: inline-block;
+      font-family: 'Minecraft', sans-serif;
+      font-weight: bold;
+      text-align: center;
+      text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+      position: relative;
+      border-style: solid;
+      border-width: 2px;
+      border-top-color: rgba(255,255,255,0.4);
+      border-left-color: rgba(255,255,255,0.4);
+      border-right-color: rgba(0,0,0,0.4);
+      border-bottom-color: rgba(0,0,0,0.4);
+      box-shadow: inset 0 0 0 2px rgba(0,0,0,0.1);
+      image-rendering: pixelated;
+    }
+
+    .minecraft-btn-green {
+      background-color: #5b7c3d;
+      color: #fff;
+      border-top-color: #7ba055;
+      border-left-color: #7ba055;
+      border-right-color: #3a4a23;
+      border-bottom-color: #3a4a23;
+    }
+
+    .minecraft-btn-yellow {
+      background-color: #f2b01e;
+      color: #fff;
+      border-top-color: #f8d055;
+      border-left-color: #f8d055;
+      border-right-color: #b88a2a;
+      border-bottom-color: #b88a2a;
+    }
+
+    .minecraft-btn:active {
+      transform: translateY(2px);
+    }
+
+    /* Si quieres usar la fuente Minecraft oficial */
+    @font-face {
+      font-family: 'Minecraft';
+      src: url('https://assets.codepen.io/21542/MinecraftBold-nMK1.woff2') format('woff2');
+      font-weight: bold;
+      font-style: normal;
+    }
+  </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {

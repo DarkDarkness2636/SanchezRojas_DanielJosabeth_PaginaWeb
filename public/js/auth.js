@@ -195,11 +195,11 @@ function updateAuthUI() {
         `;
     } else {
         authButtons.innerHTML = `
-            <a href="/login" class="font-press-start bg-green-700 text-white px-4 py-2 border-2 border-t-green-500 border-l-green-500 border-r-green-900 border-b-green-900 hover:translate-y-0.5 active:translate-y-1 transition-transform text-xs">
-                Iniciar sesión
+            <a href="/login" class="minecraft-btn minecraft-btn-green hover:transform hover:translate-y-0.5 transition-transform mr-4">
+                <span class="px-4 py-2 block">Iniciar sesión</span>
             </a>
-            <a href="/register" class="font-bold bg-yellow-500 text-white px-4 py-2 border-2 border-t-yellow-300 border-l-yellow-300 border-r-yellow-700 border-b-yellow-700 hover:translate-y-0.5 active:translate-y-1 transition-transform text-shadow-md shadow-inner">
-                Registrarse
+            <a href="/register" class="minecraft-btn minecraft-btn-yellow hover:transform hover:translate-y-0.5 transition-transform">
+                <span class="px-4 py-2 block">Registrarse</span>
             </a>
         `;
     }
