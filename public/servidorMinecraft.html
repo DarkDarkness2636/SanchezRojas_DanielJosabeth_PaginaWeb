@@ -49,11 +49,49 @@
         .mod-card {
             transition: all 0.3s ease;
             border: 2px solid #5b7c3d;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            max-width: 300px; /* Ancho máximo para cada tarjeta */
+            margin: 0 auto; /* Centrar las tarjetas */
         }
 
         .mod-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .mod-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 2px solid #5b7c3d;
+        }
+
+        .mod-card-content {
+            padding: 1rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mod-card h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #2d3748;
+        }
+
+        .mod-card p {
+            color: #4a5568;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .mod-card-actions {
+            padding: 0 1rem 1rem;
         }
 
         @font-face {
@@ -153,20 +191,22 @@
     <!-- Listado de Mods -->
     <section id="mods-section" class="hidden">
         <h2 class="text-3xl font-bold mb-6 text-center">Mods del Servidor</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="mods-grid">
-            <!-- Los mods se cargarán aquí dinámicamente -->
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="mods-grid">
+                <!-- Los mods se cargarán aquí dinámicamente -->
+            </div>
         </div>
     </section>
 
     <!-- Ejemplo de estructura de un mod (hidden) -->
     <div class="hidden" id="mod-template">
-        <div class="mod-card bg-white rounded-lg overflow-hidden shadow-md h-full flex flex-col">
-            <img src="" alt="Mod Image" class="w-full h-48 object-cover">
-            <div class="p-4 flex-grow">
-                <h3 class="text-xl font-bold mb-2"></h3>
-                <p class="text-gray-600 mb-4"></p>
+        <div class="mod-card bg-white">
+            <img src="" alt="Mod Image" class="mod-card-image">
+            <div class="mod-card-content">
+                <h3 class="mod-card-title"></h3>
+                <p class="mod-card-description"></p>
             </div>
-            <div class="px-4 pb-4">
+            <div class="mod-card-actions">
                 <a href="#" target="_blank" class="minecraft-btn minecraft-btn-green inline-block w-full text-center">
                     <span class="px-3 py-1 block text-sm">Descargar Mod</span>
                 </a>
@@ -280,10 +320,10 @@
             modElement.classList.remove('hidden');
 
             // Llenar los datos del mod
-            modElement.querySelector('img').src = mod.image;
-            modElement.querySelector('img').alt = mod.name + ' logo';
-            modElement.querySelector('h3').textContent = mod.name;
-            modElement.querySelector('p').textContent = mod.description;
+            modElement.querySelector('.mod-card-image').src = mod.image;
+            modElement.querySelector('.mod-card-image').alt = mod.name + ' logo';
+            modElement.querySelector('.mod-card-title').textContent = mod.name;
+            modElement.querySelector('.mod-card-description').textContent = mod.description;
             modElement.querySelector('a').href = mod.downloadUrl;
 
             modsGrid.appendChild(modElement);
