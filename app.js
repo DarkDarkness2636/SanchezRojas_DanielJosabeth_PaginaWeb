@@ -42,6 +42,7 @@ const htmlRoutes = {
     '/register': 'register.html',
     '/profile': 'profile.html',
     '/dataBaseDigitalOcean': '/dataBaseDigitalOcean.html',
+    '/servidorMinecraft': '/servidorMinecraft.html',
     '/dashboard': 'index.html' // Para SPA
 };
 

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servidor Minecraft - OceanCube</title>
+    <link href="css/output.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .minecraft-btn {
+            display: inline-block;
+            font-family: 'Minecraft', sans-serif;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+            position: relative;
+            border-style: solid;
+            border-width: 2px;
+            border-top-color: rgba(255,255,255,0.4);
+            border-left-color: rgba(255,255,255,0.4);
+            border-right-color: rgba(0,0,0,0.4);
+            border-bottom-color: rgba(0,0,0,0.4);
+            box-shadow: inset 0 0 0 2px rgba(0,0,0,0.1);
+            image-rendering: pixelated;
+        }
+
+        .minecraft-btn-green {
+            background-color: #5b7c3d;
+            color: #fff;
+            border-top-color: #7ba055;
+            border-left-color: #7ba055;
+            border-right-color: #3a4a23;
+            border-bottom-color: #3a4a23;
+        }
+
+        .minecraft-btn-yellow {
+            background-color: #f2b01e;
+            color: #fff;
+            border-top-color: #f8d055;
+            border-left-color: #f8d055;
+            border-right-color: #b88a2a;
+            border-bottom-color: #b88a2a;
+        }
+
+        .minecraft-btn:active {
+            transform: translateY(2px);
+        }
+
+        .mod-card {
+            transition: all 0.3s ease;
+            border: 2px solid #5b7c3d;
+        }
+
+        .mod-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        @font-face {
+            font-family: 'Minecraft';
+            src: url('https://assets.codepen.io/21542/MinecraftBold-nMK1.woff2') format('woff2');
+            font-weight: bold;
+            font-style: normal;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-gray-800 bg-gray-100">
+<!-- Navbar -->
+<nav class="bg-black shadow-lg sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex items-center">
+                <div class="flex-shrink-0 flex items-center">
+                    <i class="fas fa-cube text-blue-500 text-2xl mr-2"></i>
+                    <span class="text-xl font-bold text-white">OceanCube</span>
+                </div>
+                <div class="hidden md:ml-8 md:flex md:space-x-8">
+                    <a href="/" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Inicio</a>
+                    <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Tutoriales</a>
+                    <a href="/servidorMinecraft" class="border-primary text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Servidor</a>
+                    <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Sobre el Proyecto</a>
+                </div>
+            </div>
+            <div class="hidden md:flex items-center">
+                <div id="auth-buttons" class="hidden md:flex items-center">
+                    <!-- Aquí se cargarán los botones dinámicamente -->
+                </div>
+            </div>
+            <div class="-mr-2 flex items-center md:hidden">
+                <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary" aria-controls="mobile-menu" aria-expanded="false">
+                    <span class="sr-only">Abrir menú</span>
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="md:hidden hidden" id="mobile-menu">
+        <div class="pt-2 pb-3 space-y-1">
+            <a href="/" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Inicio</a>
+            <a href="#" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Tutoriales</a>
+            <a href="/servidorMinecraft" class="bg-indigo-50 border-primary text-primary block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Servidor</a>
+            <a href="#" class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Sobre el proyecto</a>
+        </div>
+        <div class="pt-4 pb-3 border-t border-gray-500" id="mobile-auth-buttons">
+            <div class="mt-3 space-y-3 px-4">
+                <a href="/login" class="minecraft-btn minecraft-btn-green w-full text-center hover:transform hover:translate-y-0.5 transition-transform">
+                    <span class="px-3 py-2 block text-sm">Iniciar sesión</span>
+                </a>
+                <a href="/register" class="minecraft-btn minecraft-btn-yellow w-full text-center hover:transform hover:translate-y-0.5 transition-transform">
+                    <span class="px-3 py-2 block text-sm">Registrarse</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Contenido Principal -->
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Sección de IP del Servidor (solo para usuarios autenticados) -->
+    <div id="server-info" class="hidden bg-gray-800 text-white p-6 rounded-lg shadow-lg mb-8">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+            <div>
+                <h2 class="text-2xl font-bold mb-2">¡Servidor Activo!</h2>
+                <p class="text-gray-300">Conéctate usando la siguiente dirección:</p>
+            </div>
+            <div class="mt-4 md:mt-0">
+                <div class="bg-black p-4 rounded-lg font-mono text-green-400 text-center md:text-right">
+                    <span id="server-ip">mc.oceancube.net</span>
+                    <button onclick="copyIP()" class="ml-2 text-blue-400 hover:text-blue-300">
+                        <i class="far fa-copy"></i>
+                    </button>
+                </div>
+                <p class="text-sm text-gray-400 mt-2 text-center md:text-right">Versión 1.20.1 - Con mods</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mensaje para usuarios no autenticados -->
+    <div id="login-required" class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-6 rounded-lg shadow-lg mb-8">
+        <div class="flex items-center">
+            <div class="flex-shrink-0">
+                <i class="fas fa-exclamation-triangle text-yellow-500 text-2xl"></i>
+            </div>
+            <div class="ml-4">
+                <h3 class="text-xl font-bold">Acceso Requerido</h3>
+                <p class="mt-2">Debes <a href="/login" class="text-yellow-600 hover:text-yellow-800 font-bold">iniciar sesión</a> o <a href="/register" class="text-yellow-600 hover:text-yellow-800 font-bold">registrarte</a> para ver la información del servidor y los mods disponibles.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Listado de Mods -->
+    <section id="mods-section" class="hidden">
+        <h2 class="text-3xl font-bold mb-6 text-center">Mods del Servidor</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="mods-grid">
+            <!-- Los mods se cargarán aquí dinámicamente -->
+        </div>
+    </section>
+
+    <!-- Ejemplo de estructura de un mod (hidden) -->
+    <div class="hidden" id="mod-template">
+        <div class="mod-card bg-white rounded-lg overflow-hidden shadow-md h-full flex flex-col">
+            <img src="" alt="Mod Image" class="w-full h-48 object-cover">
+            <div class="p-4 flex-grow">
+                <h3 class="text-xl font-bold mb-2"></h3>
+                <p class="text-gray-600 mb-4"></p>
+            </div>
+            <div class="px-4 pb-4">
+                <a href="#" target="_blank" class="minecraft-btn minecraft-btn-green inline-block w-full text-center">
+                    <span class="px-3 py-1 block text-sm">Descargar Mod</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <p>© 2025 OceanCube. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="./js/auth.js"></script>
+<script>
+    // Verificar autenticación al cargar
+    document.addEventListener('DOMContentLoaded', () => {
+        const token = localStorage.getItem('token');
+        const serverInfo = document.getElementById('server-info');
+        const loginRequired = document.getElementById('login-required');
+        const modsSection = document.getElementById('mods-section');
+
+        if (token) {
+            // Usuario autenticado
+            serverInfo.classList.remove('hidden');
+            modsSection.classList.remove('hidden');
+            loginRequired.classList.add('hidden');
+            loadMods();
+        } else {
+            // Usuario no autenticado
+            serverInfo.classList.add('hidden');
+            modsSection.classList.add('hidden');
+            loginRequired.classList.remove('hidden');
+        }
+    });
+
+    // Función para copiar la IP
+    function copyIP() {
+        const ip = document.getElementById('server-ip').textContent;
+        navigator.clipboard.writeText(ip);
+        alert('IP copiada al portapapeles: ' + ip);
+    }
+
+    // Función para cargar los mods (ejemplo con datos estáticos)
+    function loadMods() {
+        const modsGrid = document.getElementById('mods-grid');
+        const modTemplate = document.getElementById('mod-template');
+
+        // Datos de ejemplo - reemplaza con tus mods reales
+        const modsData = [
+            {
+                name: "OptiFine",
+                description: "Mejora el rendimiento y los gráficos de Minecraft.",
+                image: "https://i.imgur.com/JjZvQ4a.png",
+                downloadUrl: "https://optifine.net/downloads"
+            },
+            {
+                name: "JourneyMap",
+                description: "Mapa en tiempo real que muestra tu ubicación y el mundo.",
+                image: "https://i.imgur.com/8Z7WQkX.png",
+                downloadUrl: "https://www.curseforge.com/minecraft/mc-mods/journeymap"
+            },
+            {
+                name: "Biomes O' Plenty",
+                description: "Añade más de 50 nuevos biomas al juego.",
+                image: "https://i.imgur.com/5XvJ3yR.png",
+                downloadUrl: "https://www.curseforge.com/minecraft/mc-mods/biomes-o-plenty"
+            },
+            {
+                name: "Tinkers' Construct",
+                description: "Sistema avanzado de herramientas y armas modificables.",
+                image: "https://i.imgur.com/9vJZ7jQ.png",
+                downloadUrl: "https://www.curseforge.com/minecraft/mc-mods/tinkers-construct"
+            },
+            {
+                name: "Applied Energistics 2",
+                description: "Sistema de almacenamiento digital y automatización.",
+                image: "https://i.imgur.com/3XvJ3yR.png",
+                downloadUrl: "https://www.curseforge.com/minecraft/mc-mods/applied-energistics-2"
+            },
+            {
+                name: "Thaumcraft",
+                description: "Añade magia y artes arcanas a Minecraft.",
+                image: "https://i.imgur.com/7XvJ3yR.png",
+                downloadUrl: "https://www.curseforge.com/minecraft/mc-mods/thaumcraft"
+            },
+            {
+                name: "Twilight Forest",
+                description: "Nueva dimensión llena de aventuras y criaturas mágicas.",
+                image: "https://i.imgur.com/1XvJ3yR.png",
+                downloadUrl: "https://www.curseforge.com/minecraft/mc-mods/the-twilight-forest"
+            },
+            {
+                name: "Chisel",
+                description: "Añade múltiples variantes decorativas de bloques.",
+                image: "https://i.imgur.com/2XvJ3yR.png",
+                downloadUrl: "https://www.curseforge.com/minecraft/mc-mods/chisel"
+            }
+        ];
+
+        // Limpiar el grid
+        modsGrid.innerHTML = '';
+
+        // Añadir cada mod al grid
+        modsData.forEach(mod => {
+            const modElement = modTemplate.cloneNode(true);
+            modElement.classList.remove('hidden');
+
+            // Llenar los datos del mod
+            modElement.querySelector('img').src = mod.image;
+            modElement.querySelector('img').alt = mod.name + ' logo';
+            modElement.querySelector('h3').textContent = mod.name;
+            modElement.querySelector('p').textContent = mod.description;
+            modElement.querySelector('a').href = mod.downloadUrl;
+
+            modsGrid.appendChild(modElement);
+        });
+    }
+</script>
+</body>
+</html>
