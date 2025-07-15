@@ -176,6 +176,7 @@ async function logout() {
  */
 function updateAuthUI() {
     const authButtons = document.getElementById('auth-buttons');
+    const mobileAuthButtons = document.getElementById('mobile-auth-buttons');
     if (!authButtons) return;
 
     const token = localStorage.getItem('token');
@@ -193,6 +194,19 @@ function updateAuthUI() {
                 </button>
             </div>
         `;
+        mobileAuthButtons.innerHTML = `
+            <div class="pt-4 pb-3 border-t border-gray-500">
+                <div class="px-4 py-2 text-white text-center">
+                    <i class="fas fa-user-circle mr-2"></i>
+                    ${user.username}
+                </div>
+                <div class="mt-3 px-4">
+                    <button data-logout class="minecraft-btn minecraft-btn-red w-full hover:transform hover:translate-y-0.5 transition-transform">
+                        <span class="px-3 py-2 block text-sm">Cerrar sesión</span>
+                    </button>
+                </div>
+            </div>
+        `;
     } else {
         authButtons.innerHTML = `
             <a href="/login" class="minecraft-btn minecraft-btn-green hover:transform hover:translate-y-0.5 transition-transform mr-4">
@@ -202,6 +216,14 @@ function updateAuthUI() {
                 <span class="px-4 py-2 block">Registrarse</span>
             </a>
         `;
+        mobileAuthButtons.innerHTML = `
+        <a href="/login" class="minecraft-btn minecraft-btn-green w-full text-center hover:transform hover:translate-y-0.5 transition-transform">
+            <span class="px-3 py-2 block text-sm">Iniciar sesión</span>
+        </a>
+        <a href="/register" class="minecraft-btn minecraft-btn-yellow w-full text-center hover:transform hover:translate-y-0.5 transition-transform">
+            <span class="px-3 py-2 block text-sm">Registrarse</span>
+        </a>
+        `
     }
 }
 
